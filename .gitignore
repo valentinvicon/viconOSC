@@ -45,3 +45,29 @@ $RECYCLE.BIN/
 Network Trash Folder
 Temporary Items
 .apdisk
+*.obj
+x64/Release/viconOSC.ipdb
+x64/Release/viconOSC.log
+*.iobj
+x64/Release/viconOSC.pch
+*.dll
+x64/Release/vc140.pdb
+*.exe
+x64/Debug/viconOSC.tlog/link.write.1.tlog
+*.lastbuildstate
+x64/Debug/viconOSC.tlog/CL.write.1.tlog
+*.tlog
+viconOSC.VC.db
+*.filters
+*.pdb
+ipch/VICONOSC-453e020e/VICONOSC-d8eb4eea.ipch
+*.ipdb
+Release/viconOSC.pch
+*.log
+viconOSC.vcxproj.user
+*.ilk
+Debug/vc140.idb
+*.ipch
+Debug/viconOSC.pch
+*.idb
+x64/Debug/viconOSC.pch
