@@ -18,6 +18,8 @@
 
 #include "Client.h"
 
+#define _CRT_SECURE_NO_WARNINGS
+
 #include <iostream>
 #include <fstream>
 #include <cassert>
@@ -302,9 +304,9 @@ int main(int argc, char* argv[])
 
 			std::cout << ".";
 #ifdef WIN32
-			Sleep(1000);
+			//Sleep(1000);
 #else
-			sleep(1);
+			//Sleep(1);
 #endif
 		}
 		std::cout << std::endl;
@@ -392,7 +394,7 @@ int main(int argc, char* argv[])
 #ifdef WIN32
 					localtime_s(timeinfo, &rawtime);
 #else
-					localtime_r(&rawtime, timeinfo);
+					//localtime_r(&rawtime, timeinfo);
 #endif
 
 #ifdef WIN32
@@ -411,16 +413,16 @@ int main(int argc, char* argv[])
 			Output_GetFrameNumber _Output_GetFrameNumber = MyClient.GetFrameNumber();
 			output_stream << "Frame Number: " << _Output_GetFrameNumber.FrameNumber << std::endl;
 
-			char buffer[OUTPUT_BUFFER_SIZE];
+		/*	char buffer[OUTPUT_BUFFER_SIZE];
 			osc::OutboundPacketStream p(buffer, OUTPUT_BUFFER_SIZE);
 
 			p << osc::BeginBundleImmediate
-				<< osc::BeginMessage("/test1")
-				<< true << (osc::int32)_Output_GetFrameNumber.FrameNumber << (float)3.1415 << "hello" << osc::EndMessage
+				<< osc::BeginMessage("FrameNumber")
+				<< true << (osc::int32)_Output_GetFrameNumber.FrameNumber << osc::EndMessage
 				<< osc::EndBundle;
-
+				
 			transmitSocket.Send(p.Data(), p.Size());
-
+			*/
 			if (EnableHapticTest == true)
 			{
 				for (size_t i = 0; i < HapticOnList.size(); ++i)
@@ -464,6 +466,17 @@ int main(int argc, char* argv[])
 				<< _Output_GetTimecode.Standard << " "
 				<< _Output_GetTimecode.SubFramesPerFrame << " "
 				<< _Output_GetTimecode.UserBits << std::endl << std::endl;
+
+	/*		char buffer[OUTPUT_BUFFER_SIZE];
+			osc::OutboundPacketStream p(buffer, OUTPUT_BUFFER_SIZE);
+
+			p << osc::BeginBundleImmediate
+				<< osc::BeginMessage("TimeCode")
+				<< true << (osc::int32)_Output_GetTimecode.Seconds << (osc::int32)_Output_GetTimecode.Frames << osc::EndMessage
+				<< osc::EndBundle;
+
+			transmitSocket.Send(p.Data(), p.Size());
+			*/
 
 			// Get the latency
 			output_stream << "Latency: " << MyClient.GetLatencyTotal().Total << "s" << std::endl;
@@ -651,7 +664,10 @@ int main(int argc, char* argv[])
 						<< _Output_GetSegmentLocalRotationEulerXYZ.Rotation[1] << ", "
 						<< _Output_GetSegmentLocalRotationEulerXYZ.Rotation[2] << ") "
 						<< Adapt(_Output_GetSegmentLocalRotationEulerXYZ.Occluded) << std::endl;
-				}
+					
+					}
+
+
 
 				// Count the number of markers
 				unsigned int MarkerCount = MyClient.GetMarkerCount(SubjectName).MarkerCount;
@@ -674,7 +690,25 @@ int main(int argc, char* argv[])
 						<< _Output_GetMarkerGlobalTranslation.Translation[1] << ", "
 						<< _Output_GetMarkerGlobalTranslation.Translation[2] << ") "
 						<< Adapt(_Output_GetMarkerGlobalTranslation.Occluded) << std::endl;
+					
+					if (MarkerIndex == 25)
+					{
+						char buffer[OUTPUT_BUFFER_SIZE];
+						osc::OutboundPacketStream p(buffer, OUTPUT_BUFFER_SIZE);
+
+						p << osc::BeginBundleImmediate
+							<< osc::BeginMessage("Coordonatele markerului")
+							<< true << (osc::int32)MarkerIndex << "sunt (" << (osc::int32)_Output_GetMarkerGlobalTranslation.Translation[0] << "," << (osc::int32)_Output_GetMarkerGlobalTranslation.Translation[1] << "," << (osc::int32)_Output_GetMarkerGlobalTranslation.Translation[2] << ")" << osc::EndMessage
+							<< osc::EndBundle;
+
+						transmitSocket.Send(p.Data(), p.Size());
+					}
+
+				
+
+
 				}
+
 			}
 
 			// Get the unlabeled markers
