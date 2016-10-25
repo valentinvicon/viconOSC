@@ -304,9 +304,9 @@ int main(int argc, char* argv[])
 
 			std::cout << ".";
 #ifdef WIN32
-			//Sleep(1000);
+			Sleep(1000);
 #else
-			//Sleep(1);
+			Sleep(1);
 #endif
 		}
 		std::cout << std::endl;
@@ -510,25 +510,26 @@ int main(int argc, char* argv[])
 				output_stream << "    Segments (" << SegmentCount << "):" << std::endl;
 				for (unsigned int SegmentIndex = 0; SegmentIndex < SegmentCount; ++SegmentIndex)
 				{
-					output_stream << "      Segment #" << SegmentIndex << std::endl;
+//					output_stream << "      Segment #" << SegmentIndex << std::endl;
 
 					// Get the segment name
 					std::string SegmentName = MyClient.GetSegmentName(SubjectName, SegmentIndex).SegmentName;
-					output_stream << "        Name: " << SegmentName << std::endl;
+//					output_stream << "        Name: " << SegmentName << std::endl;
 
 					// Get the segment parent
 					std::string SegmentParentName = MyClient.GetSegmentParentName(SubjectName, SegmentName).SegmentName;
-					output_stream << "        Parent: " << SegmentParentName << std::endl;
+//					output_stream << "        Parent: " << SegmentParentName << std::endl;
 
 					// Get the segment's children
 					unsigned int ChildCount = MyClient.GetSegmentChildCount(SubjectName, SegmentName).SegmentCount;
-					output_stream << "     Children (" << ChildCount << "):" << std::endl;
+	//				output_stream << "     Children (" << ChildCount << "):" << std::endl;
 					for (unsigned int ChildIndex = 0; ChildIndex < ChildCount; ++ChildIndex)
 					{
 						std::string ChildName = MyClient.GetSegmentChildName(SubjectName, SegmentName, ChildIndex).SegmentName;
-						output_stream << "       " << ChildName << std::endl;
+	//					output_stream << "       " << ChildName << std::endl;
 					}
 
+					/*
 					// Get the static segment translation
 					Output_GetSegmentStaticTranslation _Output_GetSegmentStaticTranslation =
 						MyClient.GetSegmentStaticTranslation(SubjectName, SegmentName);
@@ -664,7 +665,7 @@ int main(int argc, char* argv[])
 						<< _Output_GetSegmentLocalRotationEulerXYZ.Rotation[1] << ", "
 						<< _Output_GetSegmentLocalRotationEulerXYZ.Rotation[2] << ") "
 						<< Adapt(_Output_GetSegmentLocalRotationEulerXYZ.Occluded) << std::endl;
-					
+						*/
 					}
 
 
@@ -691,25 +692,21 @@ int main(int argc, char* argv[])
 						<< _Output_GetMarkerGlobalTranslation.Translation[2] << ") "
 						<< Adapt(_Output_GetMarkerGlobalTranslation.Occluded) << std::endl;
 					
-					if (MarkerIndex == 25)
-					{
+					//if (MarkerIndex == 3)
+					//{
 						char buffer[OUTPUT_BUFFER_SIZE];
 						osc::OutboundPacketStream p(buffer, OUTPUT_BUFFER_SIZE);
 
 						p << osc::BeginBundleImmediate
-							<< osc::BeginMessage("Coordonatele markerului")
-							<< true << (osc::int32)MarkerIndex << "sunt (" << (osc::int32)_Output_GetMarkerGlobalTranslation.Translation[0] << "," << (osc::int32)_Output_GetMarkerGlobalTranslation.Translation[1] << "," << (osc::int32)_Output_GetMarkerGlobalTranslation.Translation[2] << ")" << osc::EndMessage
+							<< osc::BeginMessage("/markers")
+							<< (osc::int32)MarkerIndex  << (osc::int32)_Output_GetMarkerGlobalTranslation.Translation[0] << (osc::int32)_Output_GetMarkerGlobalTranslation.Translation[1] << (osc::int32)_Output_GetMarkerGlobalTranslation.Translation[2] << osc::EndMessage
 							<< osc::EndBundle;
 
 						transmitSocket.Send(p.Data(), p.Size());
-					}
-
-				
-
-
+					//}				
 				}
-
 			}
+//			Sleep(1500);
 
 			// Get the unlabeled markers
 			unsigned int UnlabeledMarkerCount = MyClient.GetUnlabeledMarkerCount().MarkerCount;

@@ -72,3 +72,4 @@ Debug/viconOSC.pch
 *.idb
 x64/Debug/viconOSC.pch
 *.suo
+*.opendb
