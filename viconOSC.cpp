@@ -493,6 +493,7 @@ int main(int argc, char* argv[])
 			// Count the number of subjects
 			unsigned int SubjectCount = MyClient.GetSubjectCount().SubjectCount;
 			output_stream << "Subjects (" << SubjectCount << "):" << std::endl;
+
 			for (unsigned int SubjectIndex = 0; SubjectIndex < SubjectCount; ++SubjectIndex)
 			{
 				output_stream << "  Subject #" << SubjectIndex << std::endl;
@@ -692,18 +693,30 @@ int main(int argc, char* argv[])
 						<< _Output_GetMarkerGlobalTranslation.Translation[2] << ") "
 						<< Adapt(_Output_GetMarkerGlobalTranslation.Occluded) << std::endl;
 					
-					//if (MarkerIndex == 3)
-					//{
+				
+
+					
+
+					 
 						char buffer[OUTPUT_BUFFER_SIZE];
 						osc::OutboundPacketStream p(buffer, OUTPUT_BUFFER_SIZE);
 
+						float m_x = (osc::int32)_Output_GetMarkerGlobalTranslation.Translation[0];
+						float m_y = (osc::int32)_Output_GetMarkerGlobalTranslation.Translation[1];
+						float m_z = (osc::int32)_Output_GetMarkerGlobalTranslation.Translation[2];
+
+						m_x = (m_x + 300) / 100.;
+						m_y = (m_y - 1600) / 100.;
+						m_z = (m_z + 700) / 100.;
+
+
 						p << osc::BeginBundleImmediate
 							<< osc::BeginMessage("/markers")
-							<< (osc::int32)MarkerIndex  << (osc::int32)_Output_GetMarkerGlobalTranslation.Translation[0] << (osc::int32)_Output_GetMarkerGlobalTranslation.Translation[1] << (osc::int32)_Output_GetMarkerGlobalTranslation.Translation[2] << osc::EndMessage
+							<< (osc::int32)SubjectIndex << (osc::int32)MarkerIndex << m_x << m_z << m_y << osc::EndMessage
 							<< osc::EndBundle;
 
 						transmitSocket.Send(p.Data(), p.Size());
-					//}				
+									
 				}
 			}
 //			Sleep(1500);
