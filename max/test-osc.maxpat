@@ -75,42 +75,42 @@
 , 			{
 				"box" : 				{
 					"id" : "obj-22",
-					"linecount" : 2,
+					"linecount" : 6,
 					"maxclass" : "message",
 					"numinlets" : 2,
 					"numoutlets" : 1,
 					"outlettype" : [ "" ],
-					"patching_rect" : [ 598.0, 476.0, 50.0, 36.0 ],
+					"patching_rect" : [ 598.0, 476.0, 50.0, 91.0 ],
 					"style" : "",
-					"text" : "3. 7. -16."
+					"text" : "-0.720333 -0.429667 0.318667"
 				}
 
 			}
 , 			{
 				"box" : 				{
 					"id" : "obj-20",
-					"linecount" : 3,
+					"linecount" : 5,
 					"maxclass" : "message",
 					"numinlets" : 2,
 					"numoutlets" : 1,
 					"outlettype" : [ "" ],
-					"patching_rect" : [ 518.0, 479.0, 50.0, 50.0 ],
+					"patching_rect" : [ 518.0, 479.0, 50.0, 77.0 ],
 					"style" : "",
-					"text" : "6.52 7.04 -10.7"
+					"text" : "-0.680667 -0.471 0.335667"
 				}
 
 			}
 , 			{
 				"box" : 				{
 					"id" : "obj-14",
-					"linecount" : 3,
+					"linecount" : 4,
 					"maxclass" : "message",
 					"numinlets" : 2,
 					"numoutlets" : 1,
 					"outlettype" : [ "" ],
-					"patching_rect" : [ 428.0, 465.0, 50.0, 50.0 ],
+					"patching_rect" : [ 428.0, 465.0, 50.0, 64.0 ],
 					"style" : "",
-					"text" : "8.74 5.81 -8.41"
+					"text" : "-0.320667 -0.872 0.303"
 				}
 
 			}
@@ -121,9 +121,9 @@
 					"numinlets" : 4,
 					"numoutlets" : 4,
 					"outlettype" : [ "", "", "", "" ],
-					"patching_rect" : [ 468.0, 412.0, 81.0, 22.0 ],
+					"patching_rect" : [ 468.0, 412.0, 68.0, 22.0 ],
 					"style" : "",
-					"text" : "route 0 17 30"
+					"text" : "route 0 1 2"
 				}
 
 			}
@@ -134,9 +134,9 @@
 					"numinlets" : 2,
 					"numoutlets" : 2,
 					"outlettype" : [ "", "" ],
-					"patching_rect" : [ 377.0, 353.0, 48.0, 22.0 ],
+					"patching_rect" : [ 377.0, 353.0, 55.0, 22.0 ],
 					"style" : "",
-					"text" : "route 0"
+					"text" : "route 10"
 				}
 
 			}
@@ -261,7 +261,7 @@
 					"outlettype" : [ "" ],
 					"patching_rect" : [ 253.0, 280.0, 318.0, 22.0 ],
 					"style" : "",
-					"text" : "/markers 0 51 6.36 6.26 -8.59"
+					"text" : "/markers 10 0 -0.320667 -0.872 0.303"
 				}
 
 			}

@@ -734,6 +734,26 @@ int main(int argc, char* argv[])
 					<< _Output_GetUnlabeledMarkerGlobalTranslation.Translation[0] << ", "
 					<< _Output_GetUnlabeledMarkerGlobalTranslation.Translation[1] << ", "
 					<< _Output_GetUnlabeledMarkerGlobalTranslation.Translation[2] << ")" << std::endl;
+
+
+				char buffer[OUTPUT_BUFFER_SIZE];
+				osc::OutboundPacketStream p(buffer, OUTPUT_BUFFER_SIZE);
+
+				float m_x = (osc::int32)_Output_GetUnlabeledMarkerGlobalTranslation.Translation[0];
+				float m_y = (osc::int32)_Output_GetUnlabeledMarkerGlobalTranslation.Translation[1];
+				float m_z = (osc::int32)_Output_GetUnlabeledMarkerGlobalTranslation.Translation[2];
+
+				m_x = (m_x + 0) / 3000.;
+				m_y = (m_y - 0) / 3000.;
+				m_z = (m_z + 0) / 3000.;
+
+
+				p << osc::BeginBundleImmediate
+					<< osc::BeginMessage("/markers")
+					<< 10 << (osc::int32)UnlabeledMarkerIndex << m_x << m_y << m_z << osc::EndMessage
+					<< osc::EndBundle;
+
+				transmitSocket.Send(p.Data(), p.Size());
 			}
 
 			// Count the number of devices
