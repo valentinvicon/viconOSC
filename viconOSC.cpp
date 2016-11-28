@@ -692,11 +692,6 @@ int main(int argc, char* argv[])
 						<< _Output_GetMarkerGlobalTranslation.Translation[1] << ", "
 						<< _Output_GetMarkerGlobalTranslation.Translation[2] << ") "
 						<< Adapt(_Output_GetMarkerGlobalTranslation.Occluded) << std::endl;
-					
-				
-
-					
-
 					 
 						char buffer[OUTPUT_BUFFER_SIZE];
 						osc::OutboundPacketStream p(buffer, OUTPUT_BUFFER_SIZE);
@@ -724,7 +719,10 @@ int main(int argc, char* argv[])
 			// Get the unlabeled markers
 			unsigned int UnlabeledMarkerCount = MyClient.GetUnlabeledMarkerCount().MarkerCount;
 			output_stream << "    Unlabeled Markers (" << UnlabeledMarkerCount << "):" << std::endl;
-			for (unsigned int UnlabeledMarkerIndex = 0; UnlabeledMarkerIndex < UnlabeledMarkerCount; ++UnlabeledMarkerIndex)
+
+			float m_x[10], m_y[10], m_z[10];
+
+			for (unsigned int UnlabeledMarkerIndex = 0; UnlabeledMarkerIndex < 10; ++UnlabeledMarkerIndex)
 			{
 				// Get the global marker translation
 				Output_GetUnlabeledMarkerGlobalTranslation _Output_GetUnlabeledMarkerGlobalTranslation =
@@ -736,25 +734,34 @@ int main(int argc, char* argv[])
 					<< _Output_GetUnlabeledMarkerGlobalTranslation.Translation[2] << ")" << std::endl;
 
 
-				char buffer[OUTPUT_BUFFER_SIZE];
-				osc::OutboundPacketStream p(buffer, OUTPUT_BUFFER_SIZE);
-
-				float m_x = (osc::int32)_Output_GetUnlabeledMarkerGlobalTranslation.Translation[0];
-				float m_y = (osc::int32)_Output_GetUnlabeledMarkerGlobalTranslation.Translation[1];
-				float m_z = (osc::int32)_Output_GetUnlabeledMarkerGlobalTranslation.Translation[2];
-
-				m_x = (m_x + 0) / 3000.;
-				m_y = (m_y - 0) / 3000.;
-				m_z = (m_z + 0) / 3000.;
 
 
-				p << osc::BeginBundleImmediate
-					<< osc::BeginMessage("/markers")
-					<< 10 << (osc::int32)UnlabeledMarkerIndex << m_x << m_y << m_z << osc::EndMessage
-					<< osc::EndBundle;
+				m_x[UnlabeledMarkerIndex] = (osc::int32)_Output_GetUnlabeledMarkerGlobalTranslation.Translation[0];
+				m_y[UnlabeledMarkerIndex] = (osc::int32)_Output_GetUnlabeledMarkerGlobalTranslation.Translation[1];
+				m_z[UnlabeledMarkerIndex] = (osc::int32)_Output_GetUnlabeledMarkerGlobalTranslation.Translation[2];
 
-				transmitSocket.Send(p.Data(), p.Size());
+				m_x[UnlabeledMarkerIndex] /= 3000.;// = (m_x + 0) / 3000.;
+				m_y[UnlabeledMarkerIndex] /= 3000.;// = (m_y - 0) / 3000.;
+				m_z[UnlabeledMarkerIndex] /= 3000.;// = (m_z + 0) / 3000.;
+
 			}
+
+			char buffer[OUTPUT_BUFFER_SIZE];
+			osc::OutboundPacketStream p(buffer, OUTPUT_BUFFER_SIZE);
+
+			p << osc::BeginBundleImmediate
+				<< osc::BeginMessage("/markers/cap")
+				<< m_x[0] << m_y[0] << m_z[0] << osc::EndMessage;
+
+			p << osc::BeginMessage("/markers/dreapta")
+				<< m_x[1] << m_y[1] << m_z[1] << osc::EndMessage;
+
+			p	<< osc::BeginMessage("/markers/stanga")
+				<< m_x[2] << m_y[2] << m_z[2] << osc::EndMessage
+				<< osc::EndBundle;
+
+			transmitSocket.Send(p.Data(), p.Size());
+
 
 			// Count the number of devices
 			unsigned int DeviceCount = MyClient.GetDeviceCount().DeviceCount;
